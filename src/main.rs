@@ -29,4 +29,9 @@ fn main() {{ println!("HELLO WORLD"); }}
     );
     file.write_all(code.as_bytes())
         .expect("failed to write data to share file");
+    std::process::Command::new("cargo")
+        .arg("run")
+        .current_dir("test")
+        .status()
+        .expect("failed to run command");
 }
