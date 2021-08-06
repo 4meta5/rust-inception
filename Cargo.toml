@@ -1,5 +1,5 @@
 [package]
-name = "meta-rust"
+name = "rust-writes-rust"
 version = "0.1.0"
 authors = ["4meta5 <asinghchrony@protonmail.com>"]
 edition = "2018"
