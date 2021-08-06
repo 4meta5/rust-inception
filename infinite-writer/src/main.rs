@@ -25,22 +25,22 @@ edition = "2018"
         "#,
         directory
     );
-    // Code in this file, TODO: limit depth so not infinite
+    // Code in this file
     let code = include_str!("./main.rs");
     // Create files
-    let mut cargo_toml_file = File::create(cargo_toml_path).expect("failed to create file");
-    let mut code_file = File::create(code_file_path).expect("failed to create file");
+    let mut cargo_toml_file = File::create(cargo_toml_path).expect("failed to create Cargo.toml");
+    let mut code_file = File::create(code_file_path).expect("failed to create main.rs");
     // Write to files
     cargo_toml_file
         .write_all(cargo_toml_txt.as_bytes())
-        .expect("failed to write data to share file");
+        .expect("failed to write to Cargo.toml");
     code_file
         .write_all(code.as_bytes())
-        .expect("failed to write data to share file");
+        .expect("failed to write to main.rs");
     // Run cargo run command in new directory
     std::process::Command::new("cargo")
         .arg("run")
         .current_dir(directory)
         .status()
-        .expect("failed to run command");
+        .expect("failed to run `cargo run` command");
 }
