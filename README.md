@@ -1,4 +1,4 @@
-# Rust Writes Rust
+# Rust Inception
 
 Rust programs that write Rust and runs it.
 
