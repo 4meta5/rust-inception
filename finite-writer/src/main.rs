@@ -1,18 +1,16 @@
 mod depth;
+use depth::DEPTH;
+use std::fs::{self, File};
+use std::io::Write;
 
-#[allow(arithmetic_overflow)]
 fn main() {
-    use depth::DEPTH;
-    use std::fs::{self, File};
-    use std::io::Write;
     // Paths
     let directory = "test";
     let code_subdirectory = format!("{}/src", directory);
     let cargo_toml_path = format!("{}/Cargo.toml", directory);
     let main_rs_path = format!("{}/main.rs", code_subdirectory);
     let depth_rs_path = format!("{}/depth.rs", code_subdirectory);
-    // Clean existing directory if they exist
-    fs::remove_dir_all(code_subdirectory.clone()).ok();
+    // Remove existing directory if exists
     fs::remove_dir_all(directory).ok();
     // Create folders
     fs::create_dir_all(directory).expect("failed to create test/ directory");
@@ -30,7 +28,7 @@ edition = "2018"
         directory
     );
     // Code in this file
-    let (main_code, new_depth) = if DEPTH > 0 {
+    let (main_code, new_depth) = if DEPTH > 1 {
         (include_str!("./main.rs"), DEPTH - 1)
     } else {
         (
@@ -38,6 +36,7 @@ edition = "2018"
             0u8,
         )
     };
+    println!("NEW DEPTH IS {}", new_depth);
     // Create files
     let mut cargo_toml = File::create(cargo_toml_path).expect("failed to create Cargo.toml");
     let mut main_rs = File::create(main_rs_path).expect("failed to create main.rs");
@@ -48,11 +47,11 @@ edition = "2018"
     main_rs
         .write_all(main_code.as_bytes())
         .expect("failed to write to main.rs");
-    // Only write to depth.rs if DEPTH > 0
+    // Write to depth.rs iff DEPTH > 0
     if DEPTH > 0 {
         let depth_code = format!(
-            r#"/// Default depth, used to bound writing depth
-        pub const DEPTH: u8 = {};
+            r#"/// Used to bound writing depth, decrements
+pub const DEPTH: u8 = {};
             "#,
             new_depth
         );
@@ -66,5 +65,5 @@ edition = "2018"
         .arg("run")
         .current_dir(directory)
         .status()
-        .expect("failed to run command");
+        .expect("failed to run `cargo run` command");
 }

@@ -1,2 +1,2 @@
-/// Default depth, used to bound writing depth
-pub const DEPTH: u8 = 2;
+/// Used to bound writing depth, decrements
+pub const DEPTH: u8 = 4;
