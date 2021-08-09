@@ -10,8 +10,7 @@ fn main() {
     let cargo_toml_path = format!("{}/Cargo.toml", directory);
     let main_rs_path = format!("{}/main.rs", code_subdirectory);
     let height_rs_path = format!("{}/height.rs", code_subdirectory);
-    // Clean existing directory if they exist
-    fs::remove_dir_all(code_subdirectory.clone()).ok();
+    // Clean existing directory if exists
     fs::remove_dir_all(directory).ok();
     // Create folders
     fs::create_dir_all(directory).expect("failed to create test/ directory");

@@ -47,15 +47,15 @@ edition = "2018"
     main_rs
         .write_all(main_code.as_bytes())
         .expect("failed to write to main.rs");
-    // Write to depth.rs iff DEPTH > 0
-    if DEPTH > 0 {
+    // Write to depth.rs iff DEPTH > 1
+    if DEPTH > 1 {
+        let mut depth_rs = File::create(depth_rs_path).expect("failed to create depth.rs");
         let depth_code = format!(
-            r#"/// Used to bound writing depth, decrements
+            r#"/// Used to bound depth, decrements
 pub const DEPTH: u8 = {};
             "#,
             new_depth
         );
-        let mut depth_rs = File::create(depth_rs_path).expect("failed to create depth.rs");
         depth_rs
             .write_all(depth_code.as_bytes())
             .expect("failed to write to depth.rs");
